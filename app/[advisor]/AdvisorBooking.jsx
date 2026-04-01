@@ -6,10 +6,10 @@ import { packages } from '../../lib/packages';
 import CalendlyEmbed from '../../components/CalendlyEmbed';
 
 export default function AdvisorBooking({ advisor }) {
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState(() => packages.find((p) => p.featured) ?? packages[0]);
   const [awaitingPayment, setAwaitingPayment] = useState(false);
   const [loading, setLoading] = useState(false);
-  const selectedPackageRef = useRef(null);
+  const selectedPackageRef = useRef(packages.find((p) => p.featured) ?? packages[0]);
 
   function handlePackageSelect(pkg) {
     setSelectedPackage(pkg);
@@ -170,11 +170,6 @@ export default function AdvisorBooking({ advisor }) {
                   ))}
                 </div>
 
-                {!selectedPackage && (
-                  <p className="text-zinc-600 text-xs text-center mt-4">
-                    Select a session type to see available times
-                  </p>
-                )}
               </div>
 
               {/* Flow indicator */}
