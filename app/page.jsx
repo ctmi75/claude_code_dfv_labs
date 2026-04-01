@@ -85,9 +85,9 @@ export default function TeamPage() {
             <span className="w-4 h-px bg-zinc-700" />
             <span>Select session</span>
             <span className="w-4 h-px bg-zinc-700" />
-            <span>Pay</span>
+            <span>Pick time</span>
             <span className="w-4 h-px bg-zinc-700" />
-            <span>Book</span>
+            <span>Pay to confirm</span>
           </div>
         </section>
       </div>
