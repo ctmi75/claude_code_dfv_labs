@@ -1,6 +1,6 @@
 import { packages } from '../../lib/packages';
 import { getAdvisor } from '../../lib/advisors';
-import Script from 'next/script';
+import CalendlyEmbed from '../../components/CalendlyEmbed';
 import Link from 'next/link';
 
 export default function SuccessPage({ searchParams }) {
@@ -13,7 +13,7 @@ export default function SuccessPage({ searchParams }) {
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center px-4 py-16">
-      <div className="w-full max-w-[720px]">
+      <div className="w-full max-w-[900px]">
         {/* Checkmark */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-full bg-[#E8F5F0] flex items-center justify-center">
@@ -44,13 +44,13 @@ export default function SuccessPage({ searchParams }) {
           <span className="text-lg font-medium text-gray-800">{pkg.name}</span>
           {advisor && (
             <>
-              <span className="text-gray-400 mx-2">·</span>
+              <span className="text-gray-400 mx-2">&middot;</span>
               <span className="text-lg text-gray-600">with {advisor.name}</span>
             </>
           )}
-          <span className="text-gray-400 mx-2">·</span>
+          <span className="text-gray-400 mx-2">&middot;</span>
           <span className="text-lg text-gray-600">{pkg.duration} min</span>
-          <span className="text-gray-400 mx-2">·</span>
+          <span className="text-gray-400 mx-2">&middot;</span>
           <span className="text-lg font-semibold text-gray-900">
             ${pkg.price} CAD
           </span>
@@ -61,16 +61,7 @@ export default function SuccessPage({ searchParams }) {
         </p>
 
         {/* Calendly embed */}
-        <div
-          className="calendly-inline-widget w-full rounded-xl border border-gray-200"
-          data-url={calendlyUrl}
-          style={{ minHeight: '1000px' }}
-        />
-
-        <Script
-          src="https://assets.calendly.com/assets/external/widget.js"
-          strategy="lazyOnload"
-        />
+        <CalendlyEmbed url={calendlyUrl} />
 
         {/* Fallback */}
         <div className="text-center mt-6">
