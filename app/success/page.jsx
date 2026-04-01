@@ -14,7 +14,7 @@ export default function SuccessPage({ searchParams }) {
       {/* Background glow */}
       <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-dfv/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[600px] mx-auto px-6 py-20">
+      <div className="relative z-10 w-full max-w-[560px] mx-auto px-6 py-20">
         {/* Success icon */}
         <div className="flex justify-center mb-8">
           <div className="w-16 h-16 rounded-full bg-dfv/10 border border-dfv/20 flex items-center justify-center">
@@ -33,58 +33,56 @@ export default function SuccessPage({ searchParams }) {
           </div>
         </div>
 
-        {/* Confirmation heading */}
-        <h1 className="font-display text-4xl md:text-5xl text-center text-white mb-4 italic tracking-tight">
+        {/* Heading */}
+        <h1 className="font-display text-4xl md:text-5xl text-center text-white mb-3 italic tracking-tight">
           Booking confirmed.
         </h1>
-        <p className="text-center text-zinc-500 text-lg mb-10">
-          You&apos;re all set. Check your email for the calendar invite.
+        <p className="text-center text-zinc-500 text-base mb-10">
+          Check your email for the calendar invite and session details.
         </p>
 
-        {/* Booking summary card */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-6 mb-10">
-          <div className="flex items-center gap-4 mb-6">
-            {advisor && (
-              <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0">
+        {/* Summary card */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 overflow-hidden mb-6">
+          {/* Advisor row */}
+          {advisor && (
+            <div className="flex items-center gap-4 p-5 border-b border-zinc-800">
+              <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0">
                 <img
                   src={advisor.headshotUrl}
                   alt={advisor.name}
                   className="w-full h-full object-cover object-top"
                 />
               </div>
-            )}
-            <div>
-              {advisor && (
-                <p className="text-white font-semibold text-lg">{advisor.name}</p>
-              )}
-              {advisor && (
-                <p className="text-zinc-500 text-sm">{advisor.role}</p>
-              )}
+              <div>
+                <p className="text-zinc-500 text-xs">Session with</p>
+                <p className="text-white font-semibold">{advisor.name}</p>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between py-2 border-b border-zinc-800">
+          {/* Details */}
+          <div className="divide-y divide-zinc-800">
+            <div className="flex items-center justify-between px-5 py-3.5">
               <span className="text-zinc-500 text-sm">Session</span>
               <span className="text-white text-sm font-medium">{pkg.name}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b border-zinc-800">
+            <div className="flex items-center justify-between px-5 py-3.5">
               <span className="text-zinc-500 text-sm">Duration</span>
               <span className="text-white text-sm font-medium">{pkg.duration} min</span>
             </div>
-            <div className="flex items-center justify-between py-2">
+            <div className="flex items-center justify-between px-5 py-3.5">
               <span className="text-zinc-500 text-sm">Total paid</span>
-              <span className="text-white text-lg font-bold">${pkg.price} USD</span>
+              <span className="text-white font-bold text-lg">${pkg.price} USD</span>
             </div>
           </div>
         </div>
 
         {/* Cancellation policy */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5 mb-10">
-          <p className="text-white font-semibold text-sm mb-3">Cancellation</p>
+          <p className="text-white font-semibold text-sm mb-3">Cancellation policy</p>
           <ul className="text-zinc-500 text-sm space-y-1.5 list-disc list-inside">
             <li>Calls can be rescheduled up to 2 hours before the session.</li>
-            <li>For cancellations, contact us at least 24 hours in advance.</li>
+            <li>Cancellations must be submitted at least 24 hours in advance.</li>
           </ul>
         </div>
 
