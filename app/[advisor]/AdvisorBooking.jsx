@@ -47,35 +47,7 @@ export default function AdvisorBooking({ advisor }) {
       <div className="relative z-10 max-w-[800px] mx-auto px-6">
         {/* Header */}
         <header className="pt-12 pb-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 2L36.66 11V29L20 38L3.34 29V11L20 2Z"
-                fill="#7C3AED"
-              />
-              <text
-                x="20"
-                y="24"
-                textAnchor="middle"
-                fill="white"
-                fontSize="11"
-                fontWeight="700"
-                fontFamily="Inter, sans-serif"
-              >
-                DFV
-              </text>
-            </svg>
-            <div>
-              <p className="text-sm font-semibold text-white tracking-tight">Dragon Fruit Ventures</p>
-              <p className="text-[11px] text-zinc-500 font-medium uppercase tracking-widest">Advisory</p>
-            </div>
-          </div>
+          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-8" />
           <Link
             href="/"
             className="text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
