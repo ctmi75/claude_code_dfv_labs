@@ -8,14 +8,19 @@ module.exports = {
     extend: {
       colors: {
         dfv: {
-          DEFAULT: '#1D9E75',
-          dark: '#0F6E56',
-          light: '#E8F5F0',
+          DEFAULT: '#7C3AED',
+          light: '#8B5CF6',
+          dark: '#6D28D9',
+          muted: 'rgba(124, 58, 237, 0.15)',
+          glow: 'rgba(124, 58, 237, 0.25)',
         },
       },
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
-        serif: ['DM Serif Display', 'serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Playfair Display', 'Georgia', 'serif'],
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },

@@ -2,45 +2,47 @@ export default function PackageCard({ pkg, selected, onSelect }) {
   const isSelected = selected;
   const isFeatured = pkg.featured;
 
-  let borderClass = 'border border-gray-200';
-  let bgClass = 'bg-white';
+  let borderClass = 'border border-zinc-800';
+  let bgClass = 'bg-zinc-900/60';
+  let ringClass = '';
 
   if (isSelected) {
     borderClass = 'border-2 border-dfv';
-    bgClass = 'bg-dfv-light';
+    bgClass = 'bg-dfv/5';
+    ringClass = 'shadow-[0_0_30px_rgba(124,58,237,0.12)]';
   } else if (isFeatured) {
-    borderClass = 'border-2 border-dfv';
-    bgClass = 'bg-white';
+    borderClass = 'border border-dfv/40';
+    bgClass = 'bg-zinc-900/80';
   }
 
   return (
     <button
       type="button"
       onClick={() => onSelect(pkg)}
-      className={`${borderClass} ${bgClass} rounded-2xl p-6 text-left cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-dfv focus:ring-offset-2 w-full`}
+      className={`${borderClass} ${bgClass} ${ringClass} rounded-2xl p-6 text-left cursor-pointer transition-all duration-300 hover:border-dfv/50 hover:shadow-[0_0_30px_rgba(124,58,237,0.08)] focus:outline-none w-full relative`}
     >
       {/* Badge */}
       <span
-        className={`inline-block text-xs font-medium px-3 py-1 rounded-full mb-4 ${
+        className={`inline-block text-[11px] font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wider ${
           isFeatured
             ? 'bg-dfv text-white'
-            : 'bg-gray-100 text-gray-600'
+            : 'bg-zinc-800 text-zinc-400'
         }`}
       >
         {pkg.badge}
       </span>
 
       {/* Name */}
-      <h3 className="font-serif text-xl mb-2">{pkg.name}</h3>
+      <h3 className="text-white font-semibold text-xl mb-2 tracking-tight">{pkg.name}</h3>
 
       {/* Description */}
-      <p className="text-sm font-light text-gray-500 leading-relaxed mb-5">
+      <p className="text-sm text-zinc-400 leading-relaxed mb-6">
         {pkg.description}
       </p>
 
       {/* Price */}
-      <p className="text-2xl font-semibold mb-4">
-        ${pkg.price} <span className="text-sm font-normal text-gray-400">CAD</span>
+      <p className="text-3xl font-bold text-white mb-4 tracking-tight">
+        ${pkg.price} <span className="text-sm font-medium text-zinc-500">CAD</span>
       </p>
 
       {/* Tags */}
@@ -48,12 +50,23 @@ export default function PackageCard({ pkg, selected, onSelect }) {
         {pkg.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500"
+            className="text-[11px] px-2.5 py-1 rounded-full bg-zinc-800/80 text-zinc-500 font-medium"
           >
             {tag}
           </span>
         ))}
       </div>
+
+      {/* Selected indicator */}
+      {isSelected && (
+        <div className="absolute top-4 right-4">
+          <div className="w-6 h-6 rounded-full bg-dfv flex items-center justify-center">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+        </div>
+      )}
     </button>
   );
 }

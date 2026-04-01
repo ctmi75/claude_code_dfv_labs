@@ -10,7 +10,7 @@ export default function CalendlyEmbed({ url }) {
       height="950"
       frameBorder="0"
       title="Book a time"
-      className="rounded-xl border border-gray-200"
+      className="bg-white"
     />
   );
 }

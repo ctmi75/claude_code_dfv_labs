@@ -40,51 +40,57 @@ export default function AdvisorBooking({ advisor }) {
   }
 
   return (
-    <main className="min-h-screen pb-28">
-      <div className="max-w-[720px] mx-auto px-6">
+    <main className="relative min-h-screen pb-28 overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-dfv/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-[800px] mx-auto px-6">
         {/* Header */}
-        <header className="pt-10 pb-4 flex items-center justify-between">
+        <header className="pt-12 pb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <svg
-              width="40"
-              height="40"
+              width="36"
+              height="36"
               viewBox="0 0 40 40"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 d="M20 2L36.66 11V29L20 38L3.34 29V11L20 2Z"
-                fill="#1D9E75"
+                fill="#7C3AED"
               />
               <text
                 x="20"
                 y="24"
                 textAnchor="middle"
                 fill="white"
-                fontSize="12"
-                fontWeight="600"
-                fontFamily="DM Sans, sans-serif"
+                fontSize="11"
+                fontWeight="700"
+                fontFamily="Inter, sans-serif"
               >
                 DFV
               </text>
             </svg>
             <div>
-              <p className="text-sm font-medium tracking-tight">Dragon Fruit Ventures</p>
-              <p className="text-xs text-gray-400">Advisory Sessions</p>
+              <p className="text-sm font-semibold text-white tracking-tight">Dragon Fruit Ventures</p>
+              <p className="text-[11px] text-zinc-500 font-medium uppercase tracking-widest">Advisory</p>
             </div>
           </div>
           <Link
             href="/"
-            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
           >
-            &larr; All advisors
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            All advisors
           </Link>
         </header>
 
         {/* Hero */}
-        <section className="py-16">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full bg-dfv-light overflow-hidden flex-shrink-0">
+        <section className="pt-12 pb-14">
+          <div className="flex items-center gap-5 mb-6">
+            <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-zinc-800">
               <img
                 src={advisor.headshotUrl}
                 alt={advisor.name}
@@ -92,12 +98,13 @@ export default function AdvisorBooking({ advisor }) {
               />
             </div>
             <div>
-              <h1 className="font-serif text-4xl md:text-5xl tracking-tight">
-                Book time with {advisor.name}.
+              <p className="text-dfv-light font-semibold text-sm tracking-wide uppercase mb-1">Session with</p>
+              <h1 className="font-display text-4xl md:text-5xl text-white tracking-tight italic">
+                {advisor.name}.
               </h1>
             </div>
           </div>
-          <p className="text-gray-500 font-light text-lg leading-relaxed max-w-md">
+          <p className="text-zinc-400 text-lg leading-relaxed max-w-lg">
             Pick a session, pay once, then lock in your time.
           </p>
         </section>
@@ -113,9 +120,13 @@ export default function AdvisorBooking({ advisor }) {
 
         {/* Flow Indicator */}
         <section className="pb-8 text-center">
-          <p className="text-xs text-gray-300 tracking-wide">
-            Select session &nbsp;&rarr;&nbsp; Pay via Stripe &nbsp;&rarr;&nbsp; Book on Calendly
-          </p>
+          <div className="inline-flex items-center gap-3 text-[11px] text-zinc-600 font-medium uppercase tracking-widest">
+            <span>Select session</span>
+            <span className="w-4 h-px bg-zinc-700" />
+            <span>Pay via Stripe</span>
+            <span className="w-4 h-px bg-zinc-700" />
+            <span>Book on Calendly</span>
+          </div>
         </section>
       </div>
 

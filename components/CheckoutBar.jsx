@@ -3,25 +3,25 @@
 export default function CheckoutBar({ selectedPackage, onCheckout, loading }) {
   if (!selectedPackage) {
     return (
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-4 z-50">
-        <div className="max-w-[720px] mx-auto px-6 flex items-center justify-center">
-          <p className="text-gray-300 text-sm">Select a session to continue</p>
+      <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-800/50 py-5 z-50">
+        <div className="max-w-[800px] mx-auto px-6 flex items-center justify-center">
+          <p className="text-zinc-600 text-sm font-medium">Select a session to continue</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-4 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-      <div className="max-w-[720px] mx-auto px-6 flex items-center justify-between">
+    <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-800/50 py-4 z-50">
+      <div className="max-w-[800px] mx-auto px-6 flex items-center justify-between">
         <div>
-          <p className="font-medium text-sm">{selectedPackage.name}</p>
-          <p className="text-gray-400 text-xs">${selectedPackage.price} CAD</p>
+          <p className="font-semibold text-sm text-white">{selectedPackage.name}</p>
+          <p className="text-zinc-500 text-xs font-medium">${selectedPackage.price} CAD</p>
         </div>
         <button
           onClick={onCheckout}
           disabled={loading}
-          className="bg-dfv hover:bg-dfv-dark text-white text-sm font-medium px-6 py-2.5 rounded-full transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+          className="bg-dfv hover:bg-dfv-dark active:scale-[0.98] text-white text-sm font-semibold px-8 py-3 rounded-full transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-[0_0_20px_rgba(124,58,237,0.3)]"
         >
           {loading ? (
             <>
@@ -48,7 +48,7 @@ export default function CheckoutBar({ selectedPackage, onCheckout, loading }) {
               Processing...
             </>
           ) : (
-            <>Pay ${selectedPackage.price} CAD &rarr;</>
+            <>Pay ${selectedPackage.price} CAD</>
           )}
         </button>
       </div>
