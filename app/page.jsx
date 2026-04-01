@@ -56,10 +56,12 @@ export default function TeamPage() {
                 className="group border border-gray-200 rounded-2xl p-6 bg-white transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-dfv"
               >
                 {/* Headshot */}
-                <div className="w-16 h-16 rounded-full bg-dfv-light flex items-center justify-center mb-4 overflow-hidden">
-                  <span className="text-dfv font-semibold text-xl">
-                    {advisor.name[0]}
-                  </span>
+                <div className="w-16 h-16 rounded-full bg-dfv-light mb-4 overflow-hidden">
+                  <img
+                    src={advisor.headshotUrl}
+                    alt={advisor.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Name & Role */}

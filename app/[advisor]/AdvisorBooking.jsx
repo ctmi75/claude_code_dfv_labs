@@ -84,10 +84,12 @@ export default function AdvisorBooking({ advisor }) {
         {/* Hero */}
         <section className="py-16">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full bg-dfv-light flex items-center justify-center overflow-hidden flex-shrink-0">
-              <span className="text-dfv font-semibold text-lg">
-                {advisor.name[0]}
-              </span>
+            <div className="w-14 h-14 rounded-full bg-dfv-light overflow-hidden flex-shrink-0">
+              <img
+                src={advisor.headshotUrl}
+                alt={advisor.name}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <h1 className="font-serif text-4xl md:text-5xl tracking-tight">
