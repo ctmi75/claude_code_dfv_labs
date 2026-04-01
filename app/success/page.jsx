@@ -62,9 +62,9 @@ export default function SuccessPage({ searchParams }) {
 
         {/* Calendly embed */}
         <div
-          className="calendly-inline-widget w-full rounded-xl overflow-hidden border border-gray-200"
+          className="calendly-inline-widget w-full rounded-xl border border-gray-200"
           data-url={calendlyUrl}
-          style={{ minHeight: '700px' }}
+          style={{ minHeight: '1000px' }}
         />
 
         <Script
