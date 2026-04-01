@@ -9,7 +9,6 @@ export const packages = [
     badge: '15 min',
     featured: false,
     priceEnvKey: 'STRIPE_PRICE_QUICK',
-    calendlyEnvKey: 'CALENDLY_URL_QUICK',
   },
   {
     id: 'working',
@@ -21,7 +20,6 @@ export const packages = [
     badge: 'Most booked',
     featured: true,
     priceEnvKey: 'STRIPE_PRICE_WORKING',
-    calendlyEnvKey: 'CALENDLY_URL_WORKING',
   },
   {
     id: 'strategy',
@@ -33,6 +31,5 @@ export const packages = [
     badge: '60 min',
     featured: false,
     priceEnvKey: 'STRIPE_PRICE_STRATEGY',
-    calendlyEnvKey: 'CALENDLY_URL_STRATEGY',
   },
 ];

@@ -1,46 +1,12 @@
-'use client';
+import Link from 'next/link';
+import { advisors } from '../lib/advisors';
 
-import { useState } from 'react';
-import { packages } from '../lib/packages';
-import PackageGrid from '../components/PackageGrid';
-import CheckoutBar from '../components/CheckoutBar';
-
-export default function Home() {
-  const [selectedPackage, setSelectedPackage] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  async function handleCheckout() {
-    if (!selectedPackage) return;
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ packageSlug: selectedPackage.id }),
-      });
-
-      const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('Something went wrong. Please try again.');
-        setLoading(false);
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Something went wrong. Please try again.');
-      setLoading(false);
-    }
-  }
-
+export default function TeamPage() {
   return (
-    <main className="min-h-screen pb-28">
+    <main className="min-h-screen">
       <div className="max-w-[720px] mx-auto px-6">
         {/* Header */}
         <header className="pt-10 pb-4 flex items-center gap-3">
-          {/* DFV Hexagon Logo */}
           <svg
             width="40"
             height="40"
@@ -73,36 +39,68 @@ export default function Home() {
         {/* Hero */}
         <section className="py-16">
           <h1 className="font-serif text-4xl md:text-5xl tracking-tight mb-4">
-            Book time with Christian.
+            Book time with our team.
           </h1>
           <p className="text-gray-500 font-light text-lg leading-relaxed max-w-md">
-            Pick a session, pay once, then lock in your time.
+            Pick an advisor, choose a session, and lock in your time.
           </p>
         </section>
 
-        {/* Packages */}
+        {/* Advisor Cards */}
         <section className="pb-16">
-          <PackageGrid
-            packages={packages}
-            selectedPackage={selectedPackage}
-            onSelect={setSelectedPackage}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {advisors.map((advisor) => (
+              <Link
+                key={advisor.id}
+                href={`/${advisor.id}`}
+                className="group border border-gray-200 rounded-2xl p-6 bg-white transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 hover:border-dfv"
+              >
+                {/* Headshot */}
+                <div className="w-16 h-16 rounded-full bg-dfv-light flex items-center justify-center mb-4 overflow-hidden">
+                  <span className="text-dfv font-semibold text-xl">
+                    {advisor.name[0]}
+                  </span>
+                </div>
+
+                {/* Name & Role */}
+                <h3 className="font-serif text-xl mb-0.5">{advisor.name}</h3>
+                <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-3">
+                  {advisor.role}
+                </p>
+
+                {/* Bio */}
+                <p className="text-sm font-light text-gray-500 leading-relaxed mb-4">
+                  {advisor.bio}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-5">
+                  {advisor.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <p className="text-sm font-medium text-dfv group-hover:text-dfv-dark transition-colors">
+                  Book a session &rarr;
+                </p>
+              </Link>
+            ))}
+          </div>
         </section>
 
         {/* Flow Indicator */}
         <section className="pb-8 text-center">
           <p className="text-xs text-gray-300 tracking-wide">
-            Select session &nbsp;&rarr;&nbsp; Pay via Stripe &nbsp;&rarr;&nbsp; Book on Calendly
+            Pick advisor &nbsp;&rarr;&nbsp; Select session &nbsp;&rarr;&nbsp; Pay via Stripe &nbsp;&rarr;&nbsp; Book on Calendly
           </p>
         </section>
       </div>
-
-      {/* Checkout Bar */}
-      <CheckoutBar
-        selectedPackage={selectedPackage}
-        onCheckout={handleCheckout}
-        loading={loading}
-      />
     </main>
   );
 }

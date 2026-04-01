@@ -1,16 +1,15 @@
-import { PACKAGES } from '../../lib/packages';
+import { packages } from '../../lib/packages';
+import { getAdvisor } from '../../lib/advisors';
 import Script from 'next/script';
-
-const CALENDLY_MAP = {
-  quick: process.env.CALENDLY_URL_QUICK,
-  working: process.env.CALENDLY_URL_WORKING,
-  strategy: process.env.CALENDLY_URL_STRATEGY,
-};
+import Link from 'next/link';
 
 export default function SuccessPage({ searchParams }) {
   const slug = searchParams?.package || 'working';
-  const pkg = PACKAGES.find((p) => p.id === slug) || PACKAGES[1];
-  const calendlyUrl = CALENDLY_MAP[slug] || '#';
+  const advisorId = searchParams?.advisor || 'christian';
+
+  const pkg = packages.find((p) => p.id === slug) || packages[1];
+  const advisor = getAdvisor(advisorId);
+  const calendlyUrl = advisor?.calendlyUrls?.[slug] || '#';
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center px-4 py-16">
@@ -43,8 +42,14 @@ export default function SuccessPage({ searchParams }) {
 
         <div className="text-center mb-2">
           <span className="text-lg font-medium text-gray-800">{pkg.name}</span>
+          {advisor && (
+            <>
+              <span className="text-gray-400 mx-2">·</span>
+              <span className="text-lg text-gray-600">with {advisor.name}</span>
+            </>
+          )}
           <span className="text-gray-400 mx-2">·</span>
-          <span className="text-lg text-gray-600">{pkg.duration}</span>
+          <span className="text-lg text-gray-600">{pkg.duration} min</span>
           <span className="text-gray-400 mx-2">·</span>
           <span className="text-lg font-semibold text-gray-900">
             ${pkg.price} CAD
@@ -75,8 +80,18 @@ export default function SuccessPage({ searchParams }) {
             rel="noopener noreferrer"
             className="inline-flex items-center text-[#1D9E75] hover:text-[#0F6E56] font-medium transition-colors"
           >
-            Book your time on Calendly →
+            Book your time on Calendly &rarr;
           </a>
+        </div>
+
+        {/* Back link */}
+        <div className="text-center mt-8">
+          <Link
+            href="/"
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            &larr; Back to advisors
+          </Link>
         </div>
 
         {/* Footer */}
