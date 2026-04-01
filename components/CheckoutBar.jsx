@@ -16,7 +16,7 @@ export default function CheckoutBar({ selectedPackage, onCheckout, loading }) {
       <div className="max-w-[800px] mx-auto px-6 flex items-center justify-between">
         <div>
           <p className="font-semibold text-sm text-white">{selectedPackage.name}</p>
-          <p className="text-zinc-500 text-xs font-medium">${selectedPackage.price} CAD</p>
+          <p className="text-zinc-500 text-xs font-medium">${selectedPackage.price} USD</p>
         </div>
         <button
           onClick={onCheckout}
@@ -48,7 +48,7 @@ export default function CheckoutBar({ selectedPackage, onCheckout, loading }) {
               Processing...
             </>
           ) : (
-            <>Pay ${selectedPackage.price} CAD</>
+            <>Pay ${selectedPackage.price} USD</>
           )}
         </button>
       </div>

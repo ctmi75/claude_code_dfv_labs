@@ -42,7 +42,7 @@ export default function PackageCard({ pkg, selected, onSelect }) {
 
       {/* Price */}
       <p className="text-3xl font-bold text-white mb-4 tracking-tight">
-        ${pkg.price} <span className="text-sm font-medium text-zinc-500">CAD</span>
+        ${pkg.price} <span className="text-sm font-medium text-zinc-500">USD</span>
       </p>
 
       {/* Tags */}

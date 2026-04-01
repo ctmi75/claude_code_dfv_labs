@@ -52,7 +52,7 @@ export default function SuccessPage({ searchParams }) {
           <span className="text-lg text-zinc-400">{pkg.duration} min</span>
           <span className="text-zinc-600 mx-3">/</span>
           <span className="text-lg font-bold text-white">
-            ${pkg.price} CAD
+            ${pkg.price} USD
           </span>
         </div>
 
