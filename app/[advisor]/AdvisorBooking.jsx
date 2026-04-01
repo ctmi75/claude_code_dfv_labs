@@ -1,49 +1,77 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { packages } from '../../lib/packages';
-import CalendlyEmbed from '../../components/CalendlyEmbed';
+import TimeSlotPicker from '../../components/TimeSlotPicker';
 
 const defaultPackage = packages.find((p) => p.featured) ?? packages[0];
 
+function formatSlotSummary(slot) {
+  return new Date(slot.start_time).toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
 export default function AdvisorBooking({ advisor }) {
   const [selectedPackage, setSelectedPackage] = useState(defaultPackage);
-  const [loading, setLoading] = useState(false);
-  const selectedPackageRef = useRef(defaultPackage);
+  const [slots, setSlots] = useState([]);
+  const [slotsLoading, setSlotsLoading] = useState(true);
+  const [slotsError, setSlotsError] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  function handlePackageSelect(pkg) {
-    setSelectedPackage(pkg);
-    selectedPackageRef.current = pkg;
-  }
+  // Fetch availability whenever advisor or session type changes
+  useEffect(() => {
+    setSlotsLoading(true);
+    setSlotsError(null);
+    setSelectedSlot(null);
 
-  // Fires when user clicks a time slot on Calendly — BEFORE they fill in
-  // their details, so no booking has been created yet. We redirect to Stripe
-  // immediately. After payment, the success page completes the Calendly booking.
-  async function handleDateTimeSelected() {
-    const pkg = selectedPackageRef.current;
-    if (!pkg || loading) return;
-    setLoading(true);
+    fetch(`/api/calendly/availability?advisorId=${advisor.id}&packageSlug=${selectedPackage.id}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+        setSlots(data.slots ?? []);
+      })
+      .catch((err) => setSlotsError(err.message))
+      .finally(() => setSlotsLoading(false));
+  }, [advisor.id, selectedPackage.id]);
+
+  async function handleCheckout() {
+    if (!selectedSlot || checkoutLoading) return;
+    setCheckoutLoading(true);
+
+    const endTime = new Date(
+      new Date(selectedSlot.start_time).getTime() + selectedPackage.duration * 60 * 1000,
+    ).toISOString();
+
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ packageSlug: pkg.id, advisorId: advisor.id }),
+        body: JSON.stringify({
+          packageSlug: selectedPackage.id,
+          advisorId: advisor.id,
+          slotStartTime: selectedSlot.start_time,
+          slotEndTime: endTime,
+        }),
       });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
         alert('Something went wrong. Please try again.');
-        setLoading(false);
+        setCheckoutLoading(false);
       }
     } catch {
       alert('Something went wrong. Please try again.');
-      setLoading(false);
+      setCheckoutLoading(false);
     }
   }
-
-  const calendlyUrl = advisor?.calendlyUrls?.[selectedPackage.id] || '#';
 
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -67,7 +95,7 @@ export default function AdvisorBooking({ advisor }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-10 pb-20">
 
-          {/* Left — Advisor profile (sticky on desktop) */}
+          {/* ── Left: Advisor profile (sticky) ── */}
           <div className="lg:sticky lg:top-8 lg:self-start">
             <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-zinc-800 mb-7">
               <img
@@ -93,7 +121,7 @@ export default function AdvisorBooking({ advisor }) {
             </div>
           </div>
 
-          {/* Right — Booking column */}
+          {/* ── Right: Booking column ── */}
           <div className="flex flex-col gap-4">
 
             {/* Booking card */}
@@ -113,17 +141,18 @@ export default function AdvisorBooking({ advisor }) {
                 </div>
               </div>
 
-              {/* Session type selector */}
+              {/* Session type + time picker */}
               <div className="p-5">
+                {/* Session toggles */}
                 <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
                   Session length
                 </p>
-                <div className="grid grid-cols-3 gap-2 mb-4">
+                <div className="grid grid-cols-3 gap-2 mb-6">
                   {packages.map((pkg) => (
                     <button
                       key={pkg.id}
                       type="button"
-                      onClick={() => handlePackageSelect(pkg)}
+                      onClick={() => setSelectedPackage(pkg)}
                       className={`py-3 px-2 rounded-xl text-center transition-all duration-200 ${
                         selectedPackage.id === pkg.id
                           ? 'bg-dfv/15 border-2 border-dfv text-white shadow-[0_0_20px_rgba(124,58,237,0.1)]'
@@ -138,48 +167,74 @@ export default function AdvisorBooking({ advisor }) {
                   ))}
                 </div>
 
-                {/* Price + prompt */}
-                <div className="flex items-center justify-between">
-                  <p className="text-zinc-500 text-sm">
-                    <span className="text-white font-bold text-lg">${selectedPackage.price}</span>
-                    {' '}USD
-                  </p>
-                  <p className="text-zinc-500 text-xs">
-                    Select a time to continue →
-                  </p>
-                </div>
+                {/* Time slots */}
+                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
+                  Pick a time
+                </p>
+
+                {slotsLoading ? (
+                  <div className="flex items-center justify-center py-10 gap-3">
+                    <svg className="animate-spin h-5 w-5 text-dfv-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    <span className="text-zinc-500 text-sm">Loading availability…</span>
+                  </div>
+                ) : slotsError ? (
+                  <p className="text-red-400 text-sm py-4">{slotsError}</p>
+                ) : (
+                  <TimeSlotPicker
+                    slots={slots}
+                    selectedSlot={selectedSlot}
+                    onSelect={setSelectedSlot}
+                  />
+                )}
               </div>
 
-              {/* Flow steps */}
+              {/* Flow indicator */}
               <div className="border-t border-zinc-800 py-3 px-5 flex items-center justify-center gap-3 text-[10px] font-medium uppercase tracking-widest">
                 <span className="text-dfv-light">Pick time</span>
                 <span className="w-4 h-px bg-zinc-700" />
-                <span className="text-zinc-600">Pay</span>
+                <span className={selectedSlot ? 'text-dfv-light' : 'text-zinc-600'}>Pay</span>
                 <span className="w-4 h-px bg-zinc-700" />
-                <span className="text-zinc-600">Confirmed</span>
+                <span className="text-zinc-600">Confirmed + invite sent</span>
               </div>
             </div>
 
-            {/* Calendly — loads immediately */}
-            {loading ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-10 text-center">
-                <svg className="animate-spin h-6 w-6 text-dfv-light mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                <p className="text-zinc-400 text-sm">Taking you to payment…</p>
-              </div>
-            ) : calendlyUrl !== '#' ? (
-              <div className="rounded-2xl overflow-hidden border border-zinc-800">
-                <CalendlyEmbed
-                  key={selectedPackage.id}
-                  url={calendlyUrl}
-                  onDateTimeSelected={handleDateTimeSelected}
-                />
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-10 text-center">
-                <p className="text-zinc-500 text-sm">Scheduling not yet configured for this session type.</p>
+            {/* Pay-to-confirm panel — appears when a slot is selected */}
+            {selectedSlot && (
+              <div className="rounded-2xl border border-dfv/30 bg-dfv/5 p-5">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p className="text-white font-semibold">{selectedPackage.name}</p>
+                    <p className="text-zinc-400 text-sm mt-0.5">{formatSlotSummary(selectedSlot)}</p>
+                    <p className="text-zinc-500 text-xs mt-0.5">with {advisor.name}</p>
+                  </div>
+                  <p className="text-2xl font-bold text-white">${selectedPackage.price}</p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading}
+                  className="w-full bg-zinc-100 hover:bg-white text-zinc-950 text-sm font-semibold py-3.5 rounded-full transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {checkoutLoading ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Processing…
+                    </>
+                  ) : (
+                    'Pay to confirm'
+                  )}
+                </button>
+
+                <p className="text-zinc-600 text-[11px] text-center mt-3">
+                  Calendar invite sent to both parties once payment is complete.
+                </p>
               </div>
             )}
           </div>
