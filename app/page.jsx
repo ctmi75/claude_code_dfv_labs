@@ -10,7 +10,7 @@ export default function TeamPage() {
       <div className="relative z-10 max-w-[800px] mx-auto px-6">
         {/* Header */}
         <header className="pt-12 pb-6 flex items-center justify-between">
-          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-8" />
+          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-12" />
         </header>
 
         {/* Hero */}
@@ -32,14 +32,14 @@ export default function TeamPage() {
               <Link
                 key={advisor.id}
                 href={`/${advisor.id}`}
-                className="group relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 transition-all duration-300 hover:border-dfv/50 hover:bg-zinc-900 hover:shadow-[0_0_40px_rgba(124,58,237,0.08)]"
+                className="group relative flex flex-col rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 transition-all duration-300 hover:border-dfv/50 hover:bg-zinc-900 hover:shadow-[0_0_40px_rgba(124,58,237,0.08)]"
               >
                 {/* Headshot */}
                 <div className="w-20 h-20 rounded-2xl mb-5 overflow-hidden ring-2 ring-zinc-800 group-hover:ring-dfv/40 transition-all">
                   <img
                     src={advisor.headshotUrl}
                     alt={advisor.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
 
@@ -49,8 +49,8 @@ export default function TeamPage() {
                   {advisor.role}
                 </p>
 
-                {/* Bio */}
-                <p className="text-sm text-zinc-400 leading-relaxed mb-5">
+                {/* Bio — fixed height so cards align */}
+                <p className="text-sm text-zinc-400 leading-relaxed mb-5 line-clamp-3">
                   {advisor.bio}
                 </p>
 
@@ -66,8 +66,8 @@ export default function TeamPage() {
                   ))}
                 </div>
 
-                {/* CTA */}
-                <div className="flex items-center gap-2 text-sm font-semibold text-dfv-light group-hover:text-white transition-colors">
+                {/* CTA — pushed to bottom */}
+                <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-dfv-light group-hover:text-white transition-colors">
                   Book session
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7" />

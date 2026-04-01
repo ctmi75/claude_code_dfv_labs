@@ -47,7 +47,7 @@ export default function AdvisorBooking({ advisor }) {
       <div className="relative z-10 max-w-[800px] mx-auto px-6">
         {/* Header */}
         <header className="pt-12 pb-6 flex items-center justify-between">
-          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-8" />
+          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-12" />
           <Link
             href="/"
             className="text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
