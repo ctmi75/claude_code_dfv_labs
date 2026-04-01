@@ -1,38 +1,16 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-
 export default function CalendlyEmbed({ url }) {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (!url || url === '#') return;
-
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    script.onload = () => {
-      if (window.Calendly && containerRef.current) {
-        window.Calendly.initInlineWidget({
-          url: url,
-          parentElement: containerRef.current,
-        });
-      }
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, [url]);
+  if (!url || url === '#') return null;
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full rounded-xl border border-gray-200"
-      style={{ minHeight: '900px' }}
+    <iframe
+      src={url}
+      width="100%"
+      height="950"
+      frameBorder="0"
+      title="Book a time"
+      className="rounded-xl border border-gray-200"
     />
   );
 }
