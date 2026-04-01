@@ -21,7 +21,7 @@ export async function POST(req) {
       return Response.json({ error: 'Missing advisor' }, { status: 400 });
     }
 
-    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'https://claude-code-dfv-labs.vercel.app';
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
