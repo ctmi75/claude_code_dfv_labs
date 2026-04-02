@@ -97,11 +97,11 @@ export default function AdvisorBooking({ advisor }) {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 backdrop-blur-sm overflow-hidden">
               {/* Mini-header */}
               <div className="flex items-center gap-4 p-5 border-b border-zinc-800">
-                <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0">
+                <div className={`w-12 h-12 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0 ${isDeckReview ? 'bg-zinc-800 flex items-center justify-center p-2' : ''}`}>
                   <img
                     src={advisor.headshotUrl}
                     alt={isDeckReview ? 'DFV' : advisor.name}
-                    className="w-full h-full object-cover object-top"
+                    className={isDeckReview ? 'w-full h-full object-contain' : 'w-full h-full object-cover object-top'}
                   />
                 </div>
                 <div>
