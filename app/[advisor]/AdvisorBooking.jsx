@@ -32,7 +32,7 @@ export default function AdvisorBooking({ advisor }) {
       <div className="relative z-10 max-w-[1100px] mx-auto px-6">
         {/* Header */}
         <header className="pt-12 pb-8 flex items-center justify-between">
-          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-12" />
+          <a href="/"><img src="/logo.png" alt="Dragonfruit Ventures" className="h-12" /></a>
           <Link
             href="/"
             className="text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
@@ -169,7 +169,7 @@ export default function AdvisorBooking({ advisor }) {
                     </svg>
                     <div>
                       <p className="text-white text-sm font-semibold">Pitch Deck Review</p>
-                      <p className="text-zinc-400 text-xs">30 min · Rotating DFV partner</p>
+                      <p className="text-zinc-400 text-xs">45 min · Rotating DFV partner</p>
                     </div>
                     <span className="ml-auto text-white font-bold">$250</span>
                   </div>
@@ -254,13 +254,14 @@ function DeckReviewInfo() {
       </div>
 
       <p className="text-zinc-400 text-base leading-relaxed mb-6">
-        Get sharp, actionable feedback on your pitch deck from a Dragon Fruit Ventures partner
-        before you go out to raise.
+        A live teardown of your pitch deck with a Dragonfruit Ventures partner. You&apos;ll walk away
+        with slide-by-slide feedback, a clearer narrative arc, and concrete next steps to sharpen
+        your story before you hit the fundraising trail.
       </p>
 
       <div className="space-y-4 mb-6">
         {[
-          { label: 'What you get', detail: '30-minute live review + written notes on your deck' },
+          { label: 'What you get', detail: '45-minute live review with slide-by-slide feedback and actionable next steps' },
           { label: 'Who reviews', detail: 'Rotates between Christian, Matt, and Omar' },
           { label: 'Turnaround', detail: 'Session scheduled within your chosen time slot' },
         ].map(({ label, detail }) => (

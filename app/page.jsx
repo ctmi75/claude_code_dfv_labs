@@ -13,7 +13,7 @@ export default function TeamPage() {
       <div className="relative z-10 max-w-[800px] mx-auto px-6">
         {/* Header */}
         <header className="pt-12 pb-6 flex items-center justify-between">
-          <img src="/logo.png" alt="Dragon Fruit Ventures" className="h-12" />
+          <a href="/"><img src="/logo.png" alt="Dragonfruit Ventures" className="h-12" /></a>
         </header>
 
         {/* Hero */}
@@ -67,8 +67,8 @@ export default function TeamPage() {
                 </span>
               </div>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Get sharp, actionable feedback from a DFV partner before you go out to raise.
-                Rotating between Christian, Matt &amp; Omar.
+                45-minute live deck teardown with slide-by-slide feedback, narrative coaching,
+                and concrete next steps. Rotating between Christian, Matt &amp; Omar.
               </p>
             </div>
 
@@ -101,7 +101,7 @@ export default function TeamPage() {
             {realAdvisors.map((advisor) => (
               <div
                 key={advisor.id}
-                className="relative flex flex-col rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 opacity-60 cursor-default"
+                className="relative flex flex-col rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 opacity-35 cursor-default grayscale"
               >
                 {/* Headshot */}
                 <div className="w-20 h-20 rounded-2xl mb-5 overflow-hidden ring-2 ring-zinc-800">
