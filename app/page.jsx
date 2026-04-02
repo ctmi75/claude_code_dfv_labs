@@ -99,13 +99,12 @@ export default function TeamPage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {realAdvisors.map((advisor) => (
-              <Link
+              <div
                 key={advisor.id}
-                href={`/${advisor.id}`}
-                className="group relative flex flex-col rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 transition-all duration-300 hover:border-dfv/50 hover:bg-zinc-900 hover:shadow-[0_0_40px_rgba(124,58,237,0.08)]"
+                className="relative flex flex-col rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 opacity-60 cursor-default"
               >
                 {/* Headshot */}
-                <div className="w-20 h-20 rounded-2xl mb-5 overflow-hidden ring-2 ring-zinc-800 group-hover:ring-dfv/40 transition-all">
+                <div className="w-20 h-20 rounded-2xl mb-5 overflow-hidden ring-2 ring-zinc-800">
                   <img
                     src={advisor.headshotUrl}
                     alt={advisor.name}
@@ -138,23 +137,11 @@ export default function TeamPage() {
                   ))}
                 </div>
 
-                {/* CTA */}
-                <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-dfv-light group-hover:text-white transition-colors">
-                  Book session
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                {/* Coming soon */}
+                <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-zinc-600">
+                  Coming soon
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
