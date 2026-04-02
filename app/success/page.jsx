@@ -27,7 +27,7 @@ export default function SuccessPage({ searchParams }) {
           Booking confirmed.
         </h1>
         <p className="text-center text-zinc-500 text-base mb-10">
-          Check your inbox — a calendar invite has been sent to you and {advisor?.name ?? 'the advisor'}.
+          Check your inbox — a calendar invite has been sent to you and {advisor?.name ?? 'the advisor'} via Calendly.
         </p>
 
         {/* Summary */}

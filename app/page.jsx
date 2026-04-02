@@ -164,9 +164,7 @@ export default function TeamPage() {
           <div className="inline-flex items-center gap-3 text-[11px] text-zinc-600 font-medium uppercase tracking-widest">
             <span>Pick a session</span>
             <span className="w-4 h-px bg-zinc-700" />
-            <span>Pick a time</span>
-            <span className="w-4 h-px bg-zinc-700" />
-            <span>Pay to confirm</span>
+            <span>Pick a time &amp; pay on Calendly</span>
             <span className="w-4 h-px bg-zinc-700" />
             <span>Invite sent</span>
           </div>
