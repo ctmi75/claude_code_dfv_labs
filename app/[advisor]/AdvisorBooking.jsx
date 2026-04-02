@@ -31,11 +31,11 @@ export default function AdvisorBooking({ advisor }) {
 
       <div className="relative z-10 max-w-[1100px] mx-auto px-6">
         {/* Header */}
-        <header className="pt-12 pb-8 flex items-center justify-between">
-          <a href="/"><img src="/logo.png" alt="Dragonfruit Ventures" className="h-12" /></a>
+        <header className="pt-12 pb-8 flex items-center justify-center relative">
+          <a href="/"><img src="/DFV-Logo-D-White.png" alt="Dragonfruit Ventures" className="h-12" /></a>
           <Link
             href="/"
-            className="text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+            className="absolute right-0 text-sm text-zinc-500 hover:text-white transition-colors font-medium flex items-center gap-1.5"
           >
             <svg
               width="14"
