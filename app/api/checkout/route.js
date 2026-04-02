@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const PRICE_MAP = {
+  'deck-review': process.env.STRIPE_PRICE_DECK_REVIEW,
   quick: process.env.STRIPE_PRICE_QUICK,
   working: process.env.STRIPE_PRICE_WORKING,
   strategy: process.env.STRIPE_PRICE_STRATEGY,
