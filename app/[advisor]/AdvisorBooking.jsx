@@ -20,6 +20,7 @@ export default function AdvisorBooking({ advisor }) {
   const [selectedPackage, setSelectedPackage] = useState(
     isDeckReview ? deckReviewPackage : defaultAdvisorPackage,
   );
+  const [showCalendly, setShowCalendly] = useState(false);
 
   const calendlyUrl = advisor.calendlyUrls?.[selectedPackage.id] ?? '#';
 
@@ -52,27 +53,14 @@ export default function AdvisorBooking({ advisor }) {
           </Link>
         </header>
 
-        {isDeckReview ? (
-          /* ── Deck Review: stacked layout ── */
-          <div className="pb-20">
-            <DeckReviewInfo />
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-10 pb-10">
 
-            {/* Calendly embed — full width below info */}
-            <div className="mt-10">
-              <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-4">
-                Pick a time &amp; pay
-              </p>
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 overflow-hidden">
-                <CalendlyEmbed url={calendlyUrl} />
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* ── Regular advisor: two-column layout ── */
-          <div className="pb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-10">
-              {/* Left: Profile info (sticky) */}
-              <div className="lg:sticky lg:top-8 lg:self-start">
+          {/* ── Left: Profile / product info (sticky) ── */}
+          <div className="lg:sticky lg:top-8 lg:self-start">
+            {isDeckReview ? (
+              <DeckReviewInfo />
+            ) : (
+              <>
                 <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-zinc-800 mb-7">
                   <img
                     src={advisor.headshotUrl}
@@ -98,30 +86,38 @@ export default function AdvisorBooking({ advisor }) {
                     </span>
                   ))}
                 </div>
+              </>
+            )}
+          </div>
+
+          {/* ── Right: Booking column ── */}
+          <div className="flex flex-col gap-4">
+
+            {/* Booking card */}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 backdrop-blur-sm overflow-hidden">
+              {/* Mini-header */}
+              <div className="flex items-center gap-4 p-5 border-b border-zinc-800">
+                <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0">
+                  <img
+                    src={advisor.headshotUrl}
+                    alt={isDeckReview ? 'DFV' : advisor.name}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div>
+                  <p className="text-zinc-500 text-xs font-medium">
+                    {isDeckReview ? 'Deck review with' : 'Connect with'}
+                  </p>
+                  <h2 className="font-display text-xl text-white leading-tight">
+                    {isDeckReview ? 'a DFV Partner' : advisor.name}
+                  </h2>
+                </div>
               </div>
 
-              {/* Right: Booking card */}
-              <div className="flex flex-col gap-4">
-                <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 backdrop-blur-sm overflow-hidden">
-                  {/* Mini-header */}
-                  <div className="flex items-center gap-4 p-5 border-b border-zinc-800">
-                    <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-zinc-700 flex-shrink-0">
-                      <img
-                        src={advisor.headshotUrl}
-                        alt={advisor.name}
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-zinc-500 text-xs font-medium">Connect with</p>
-                      <h2 className="font-display text-xl text-white leading-tight">
-                        {advisor.name}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    {/* Session type selector */}
+              <div className="p-5">
+                {/* Session type selector — only for regular advisors */}
+                {!isDeckReview && (
+                  <>
                     <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
                       Session length
                     </p>
@@ -130,7 +126,10 @@ export default function AdvisorBooking({ advisor }) {
                         <button
                           key={pkg.id}
                           type="button"
-                          onClick={() => setSelectedPackage(pkg)}
+                          onClick={() => {
+                            setSelectedPackage(pkg);
+                            setShowCalendly(false);
+                          }}
                           className={`py-3 px-2 rounded-xl text-center transition-all duration-200 ${
                             selectedPackage.id === pkg.id
                               ? 'bg-dfv/15 border-2 border-dfv text-white shadow-[0_0_20px_rgba(124,58,237,0.1)]'
@@ -146,17 +145,77 @@ export default function AdvisorBooking({ advisor }) {
                         </button>
                       ))}
                     </div>
+                  </>
+                )}
 
-                    {/* Calendly embed */}
-                    <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
-                      Pick a time &amp; pay
-                    </p>
-                    <div className="rounded-xl overflow-hidden">
-                      <CalendlyEmbed url={calendlyUrl} />
+                {/* Deck Review package badge */}
+                {isDeckReview && (
+                  <div className="mb-6 flex items-center gap-3 rounded-xl bg-dfv/10 border border-dfv/20 px-4 py-3">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#8B5CF6"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="flex-shrink-0"
+                    >
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    <div>
+                      <p className="text-white text-sm font-semibold">Pitch Deck Review</p>
+                      <p className="text-zinc-400 text-xs">30 min · Rotating DFV partner</p>
                     </div>
+                    <span className="ml-auto text-white font-bold">$250</span>
                   </div>
-                </div>
+                )}
+
+                {/* Book a time button */}
+                <button
+                  type="button"
+                  onClick={() => setShowCalendly(true)}
+                  className="w-full bg-zinc-100 hover:bg-white text-zinc-950 text-sm font-semibold py-3.5 rounded-full transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  Book a time
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                <p className="text-zinc-600 text-[11px] text-center mt-3">
+                  Pick a time &amp; pay via Calendly. Calendar invite sent automatically.
+                </p>
               </div>
+
+              {/* Flow indicator */}
+              <div className="border-t border-zinc-800 py-3 px-5 flex items-center justify-center gap-3 text-[10px] font-medium uppercase tracking-widest">
+                <span className={showCalendly ? 'text-dfv-light' : 'text-zinc-600'}>Pick time &amp; pay</span>
+                <span className="w-4 h-px bg-zinc-700" />
+                <span className="text-zinc-600">Invite sent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Calendly embed — full width below ── */}
+        {showCalendly && (
+          <div className="pb-20">
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 overflow-hidden">
+              <CalendlyEmbed url={calendlyUrl} />
             </div>
           </div>
         )}
@@ -167,7 +226,7 @@ export default function AdvisorBooking({ advisor }) {
 
 function DeckReviewInfo() {
   return (
-    <div className="max-w-[600px] mx-auto">
+    <div>
       <div className="w-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 mb-7 p-8 flex flex-col items-center justify-center text-center min-h-[240px]">
         <div className="w-16 h-16 rounded-2xl bg-dfv/10 border border-dfv/20 flex items-center justify-center mb-5">
           <svg
